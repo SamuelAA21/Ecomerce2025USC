@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Historial de Compras{% endblock %}
+{% block content %}
+<h2>Historial de Compras</h2>
+{% if historial %}
+<ul class="list-group">
+    {% for compra in historial %}
+    <li class="list-group-item">
+        Compra de productos IDs: {{ compra['productos'] }} - Total: ${{ compra['total'] }}
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No tienes compras registradas.</p>
+{% endif %}
+{% endblock %}

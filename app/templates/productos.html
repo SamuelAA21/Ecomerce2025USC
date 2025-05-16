@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>TEST CARGA DE PLANTILLA</title>
-</head>
-<body>
-    <h1>ESTO ES UNA PRUEBA</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Productos{% endblock %}
+{% block content %}
+<h2 class="text-center mb-4">Productos Disponibles</h2>
+<div class="row">
+    {% for producto in productos %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ producto['nombre_producto'] }}</h5>
+                <p>{{ producto['descripcion'] }}</p>
+                <p><strong>Precio:</strong> ${{ producto['precio'] }}</p>
+                <a href="/agregar/{{ producto['id'] }}" class="btn btn-primary w-100">Agregar al carrito</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

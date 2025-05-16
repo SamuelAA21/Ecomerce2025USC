@@ -1,22 +1,18 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Registro de Cliente</title>
-</head>
-<body>
-    <h1>Registro de Cliente</h1>
-    <form action="/registro" method="post">
-        <label>Nombre:</label><br>
-        <input type="text" name="nombre" required><br><br>
-
-        <label>Dirección:</label><br>
-        <input type="text" name="direccion" required><br><br>
-
-        <label>Dinero inicial:</label><br>
-        <input type="number" name="dinero" step="0.01" required><br><br>
-
-        <input type="submit" value="Registrarse">
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Registro{% endblock %}
+{% block content %}
+<h2 class="text-center mb-4">Registro</h2>
+<form method="post" class="w-50 mx-auto">
+    <input name="nombre" placeholder="Nombre" class="form-control mb-3" required>
+    <input name="direccion" placeholder="Dirección" class="form-control mb-3" required>
+    <input name="dinero" placeholder="Dinero Inicial" type="number" class="form-control mb-3" required>
+    <div class="mb-3">
+    <label class="form-label">Tipo de Usuario</label>
+    <select name="rol" class="form-control" required>
+        <option value="cliente">Cliente</option>
+        <option value="vendedor">Vendedor</option>
+    </select>
+    </div>
+    <button class="btn btn-success w-100">Registrarse</button>
+</form>
+{% endblock %}

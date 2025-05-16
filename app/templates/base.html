@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}E-commerce{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">E-commerce USC</a>
+            <div>
+                {% if session.get('cliente') %}
+                <a href="/productos" class="btn btn-outline-light me-2">Productos</a>
+                <a href="/carrito" class="btn btn-outline-light me-2">Carrito</a>
+                <a href="/historial" class="btn btn-outline-light me-2">Historial</a>
+                <a href="/logout" class="btn btn-outline-danger">Cerrar Sesión</a>
+                <a href="/recargar" class="btn btn-outline-light me-2">Recargar Saldo</a>
+                {% if session.get('cliente') and session['cliente']['rol'] == 'vendedor' %}
+                <a href="/vendedor" class="btn btn-outline-light me-2">Panel Vendedor</a>
+                {% endif %}
+
+                {% else %}
+                <a href="/registro" class="btn btn-outline-light me-2">Registrarse</a>
+                <a href="/login" class="btn btn-outline-light">Iniciar Sesión</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 80px;">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

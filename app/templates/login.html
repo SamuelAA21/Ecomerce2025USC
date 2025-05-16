@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Iniciar Sesión</title>
-</head>
-<body>
-    <h1>Iniciar Sesión</h1>
-    <form action="/login" method="post">
-        <label>Nombre:</label><br>
-        <input type="text" name="nombre" required><br><br>
-        <input type="submit" value="Iniciar Sesión">
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Iniciar Sesión{% endblock %}
+{% block content %}
+<h2 class="text-center mb-4">Iniciar Sesión</h2>
+<form method="post" class="w-50 mx-auto">
+    <input name="nombre" placeholder="Nombre" class="form-control mb-3" required>
+    <button class="btn btn-primary w-100">Iniciar Sesión</button>
+</form>
+{% endblock %}

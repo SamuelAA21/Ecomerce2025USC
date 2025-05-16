@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Resumen de Compra{% endblock %}
+{% block content %}
+<h2>Resumen de Compra</h2>
+<ul class="list-group mb-4">
+    {% for producto in carrito %}
+    <li class="list-group-item">
+        {{ producto['nombre_producto'] }} - ${{ producto['precio'] }}
+    </li>
+    {% endfor %}
+</ul>
+<p><strong>Total:</strong> ${{ total }}</p>
+<form action="/confirmar_compra" method="post">
+    <button class="btn btn-success">Confirmar Compra</button>
+</form>
+{% endblock %}
