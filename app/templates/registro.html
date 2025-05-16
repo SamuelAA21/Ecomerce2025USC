@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Cliente</title>
+</head>
+<body>
+    <h1>Registro de Cliente</h1>
+    <form action="/registro" method="post">
+        <label>Nombre:</label><br>
+        <input type="text" name="nombre" required><br><br>
+
+        <label>Dirección:</label><br>
+        <input type="text" name="direccion" required><br><br>
+
+        <label>Dinero inicial:</label><br>
+        <input type="number" name="dinero" step="0.01" required><br><br>
+
+        <input type="submit" value="Registrarse">
+    </form>
+</body>
+</html>
