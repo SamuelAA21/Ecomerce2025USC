@@ -1,12 +1,32 @@
 {% extends 'base.html' %}
-
 {% block title %}Panel de Vendedor{% endblock %}
-
 {% block content %}
+
 <div class="bg-light p-5 rounded mb-4 text-center shadow-sm">
-    <h1 class="mb-3">Panel de Vendedor</h1>
-    <p>Gestiona y publica tus productos en la tienda.</p>
+    <h1 class="mb-3">Gestión de Productos Publicados</h1>
 </div>
+
+{% if productos %}
+<div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
+    {% for producto in productos %}
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0 rounded-4">
+            <div class="card-body">
+                <h5 class="card-title">{{ producto['nombre_producto'] }}</h5>
+                <p class="card-text">{{ producto['descripcion'] }}</p>
+                <p><strong>Precio:</strong> ${{ producto['precio'] }}</p>
+                <p><strong>Existencias:</strong> {{ producto['existencias'] }}</p>
+                <!-- Aquí podrías agregar botones para eliminar o editar -->
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info text-center">
+    <h4>Aún no has publicado ningún producto.</h4>
+</div>
+{% endif %}
 
 <div class="card mx-auto shadow-sm border-0 rounded-4" style="max-width: 600px;">
     <div class="card-body">

@@ -116,35 +116,55 @@ def mostrar_compra():
 # 💳 Confirmar compra
 @main.route('/confirmar_compra', methods=['POST'])
 def confirmar_compra():
-    if cliente_requerido(): return cliente_requerido()
+    if 'cliente' not in session:
+        return redirect(url_for('main.login'))
+
     supabase = get_supabase_client()
     cliente = session['cliente']
     carrito_ids = cliente.get('carrito_compras', [])
     if not carrito_ids:
         return "Tu carrito está vacío."
+
     productos = []
-    total = 0
+    total_compra = 0
+
+    # Verificar disponibilidad y calcular total
     for producto_id in carrito_ids:
         response = supabase.table('productos').select('*').eq('id', producto_id).execute()
         if response.data:
             producto = response.data[0]
+            if producto['existencias'] <= 0:
+                return f"El producto '{producto['nombre_producto']}' no tiene existencias suficientes."
             productos.append(producto)
-            total += float(producto['precio'])
-    if float(cliente['dinero']) < total:
-        return f"No tienes suficiente dinero. Total: {total}, Tu saldo: {cliente['dinero']}"
-    nuevo_saldo = float(cliente['dinero']) - total
+            total_compra += float(producto['precio'])
+
+    # Verificar saldo suficiente
+    if float(cliente['dinero']) < total_compra:
+        return f"No tienes suficiente dinero. Total: {total_compra}, Tu saldo: {cliente['dinero']}"
+
+    # Descontar existencias y actualizar productos
+    for producto in productos:
+        nuevas_existencias = producto['existencias'] - 1
+        supabase.table('productos').update({'existencias': nuevas_existencias}).eq('id', producto['id']).execute()
+
+    # Actualizar saldo y registrar historial
+    nuevo_saldo = float(cliente['dinero']) - total_compra
     historial = cliente.get('historial_compras', [])
-    historial.append({'productos': carrito_ids, 'total': total})
+    historial.append({'productos': carrito_ids, 'total': total_compra})
+
     supabase.table('clientes').update({
         'dinero': nuevo_saldo,
         'carrito_compras': [],
         'historial_compras': historial
     }).eq('id', cliente['id']).execute()
+
     cliente['dinero'] = nuevo_saldo
     cliente['carrito_compras'] = []
     cliente['historial_compras'] = historial
     session['cliente'] = cliente
+
     return redirect(url_for('main.ver_historial'))
+
 
 # 🧾 Ver historial de compras
 @main.route('/historial')
@@ -196,13 +216,16 @@ def recargar_dinero():
         return redirect(url_for('main.mostrar_productos'))
 
     return render_template('recargar.html', saldo=cliente['dinero'])
+
 @main.route('/vendedor', methods=['GET', 'POST'])
 def panel_vendedor():
     if 'cliente' not in session or session['cliente'].get('rol') != 'vendedor':
         return redirect(url_for('main.login'))
 
     supabase = get_supabase_client()
+    vendedor_id = session['cliente']['id']
 
+    # Publicar un nuevo producto
     if request.method == 'POST':
         nombre_producto = request.form['nombre_producto']
         descripcion = request.form['descripcion']
@@ -213,10 +236,16 @@ def panel_vendedor():
             'nombre_producto': nombre_producto,
             'descripcion': descripcion,
             'precio': precio,
-            'existencias': existencias
+            'existencias': existencias,
+            'vendedor_id': vendedor_id
         }
 
         supabase.table('productos').insert(producto_data).execute()
         return redirect(url_for('main.panel_vendedor'))
 
-    return render_template('vendedor.html')
+    # Obtener solo los productos de este vendedor
+    response = supabase.table('productos').select('*').eq('vendedor_id', vendedor_id).execute()
+    mis_productos = response.data or []
+
+    return render_template('vendedor.html', productos=mis_productos)
+

@@ -1,8 +1,24 @@
 {% extends 'base.html' %}
-{% block title %}Inicio{% endblock %}
+
+{% block title %}Bienvenido{% endblock %}
+
 {% block content %}
-<div class="text-center">
-    <h1>Bienvenido a Ecommerce USC</h1>
-    <p>Explora nuestros productos o regístrate para comenzar a comprar.</p>
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm text-center">
+    <div class="container py-5">
+        <h1 class="display-5 fw-bold mb-4">Bienvenido a Ecommerce USC</h1>
+        <p class="lead mb-4">
+            La mejor tienda virtual para que encuentres lo que necesitas o para que gestiones tus productos como vendedor.
+        </p>
+        {% if not session.get('cliente') %}
+        <div class="d-flex justify-content-center gap-3">
+            <a href="/registro" class="btn-custom btn-lg">Registrarse</a>
+            <a href="/login" class="btn-custom btn-lg">Iniciar Sesión</a>
+        </div>
+        {% else %}
+        <div class="d-flex justify-content-center">
+            <a href="/productos" class="btn-custom btn-lg">Ir al Catálogo</a>
+        </div>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
