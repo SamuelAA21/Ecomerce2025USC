@@ -1,10 +1,23 @@
 {% extends 'base.html' %}
+
 {% block title %}Recargar Saldo{% endblock %}
+
 {% block content %}
-<h2 class="text-center mb-4">Recargar Saldo</h2>
-<p>Tu saldo actual es: <strong>${{ saldo }}</strong></p>
-<form method="post" class="w-50 mx-auto">
-    <input name="monto" type="number" step="0.01" class="form-control mb-3" placeholder="Monto a recargar" required>
-    <button class="btn btn-success w-100">Recargar</button>
-</form>
+<div class="bg-light p-5 rounded mb-4 text-center shadow-sm">
+    <h1 class="mb-3">Recargar Saldo</h1>
+    <p>Tu saldo actual es: <strong>${{ saldo }}</strong></p>
+</div>
+
+<div class="card mx-auto shadow-sm border-0 rounded-4" style="max-width: 500px;">
+    <div class="card-body">
+        <h4 class="card-title mb-3 text-center">Agregar Dinero a tu Cuenta</h4>
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Monto a Recargar</label>
+                <input name="monto" type="number" step="0.01" class="form-control" required>
+            </div>
+            <button type="submit" class="btn-custom w-100">Recargar Saldo</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

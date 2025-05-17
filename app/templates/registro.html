@@ -1,18 +1,38 @@
 {% extends 'base.html' %}
-{% block title %}Registro{% endblock %}
+
+{% block title %}Registro de Usuario{% endblock %}
+
 {% block content %}
-<h2 class="text-center mb-4">Registro</h2>
-<form method="post" class="w-50 mx-auto">
-    <input name="nombre" placeholder="Nombre" class="form-control mb-3" required>
-    <input name="direccion" placeholder="Dirección" class="form-control mb-3" required>
-    <input name="dinero" placeholder="Dinero Inicial" type="number" class="form-control mb-3" required>
-    <div class="mb-3">
-    <label class="form-label">Tipo de Usuario</label>
-    <select name="rol" class="form-control" required>
-        <option value="cliente">Cliente</option>
-        <option value="vendedor">Vendedor</option>
-    </select>
+<div class="bg-light p-5 rounded mb-4 text-center shadow-sm">
+    <h1 class="mb-3">Crear Nueva Cuenta</h1>
+    <p>Regístrate como cliente o vendedor para empezar a usar la tienda.</p>
+</div>
+
+<div class="card mx-auto shadow-sm border-0 rounded-4" style="max-width: 600px;">
+    <div class="card-body">
+        <h4 class="card-title mb-3 text-center">Registro de Usuario</h4>
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input name="nombre" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Dirección</label>
+                <input name="direccion" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Dinero Inicial</label>
+                <input name="dinero" type="number" step="0.01" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Tipo de Usuario</label>
+                <select name="rol" class="form-control" required>
+                    <option value="cliente">Cliente</option>
+                    <option value="vendedor">Vendedor</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-custom w-100">Registrarse</button>
+        </form>
     </div>
-    <button class="btn btn-success w-100">Registrarse</button>
-</form>
+</div>
 {% endblock %}

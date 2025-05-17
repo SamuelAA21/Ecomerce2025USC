@@ -1,16 +1,32 @@
 {% extends 'base.html' %}
-{% block title %}Productos{% endblock %}
+
+{% block title %}Catálogo de Productos{% endblock %}
+
 {% block content %}
-<h2 class="text-center mb-4">Productos Disponibles</h2>
-<div class="row">
+<div class="bg-light p-5 rounded mb-4 text-center shadow-sm">
+    <h1 class="mb-3">Explora Nuestros Productos</h1>
+    <p>Encuentra lo que necesitas al mejor precio, disponible para entrega inmediata.</p>
+    <a href="/carrito" class="btn-custom mt-3">Ir al Carrito</a>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Catálogo Destacado</h2>
+    <form method="get" class="d-flex" style="max-width: 300px;">
+        <input type="text" class="form-control me-2" placeholder="Buscar producto...">
+        <button type="submit" class="btn-custom">Buscar</button>
+    </form>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
     {% for producto in productos %}
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body">
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0 rounded-4">
+            <div class="card-body d-flex flex-column justify-content-between">
                 <h5 class="card-title">{{ producto['nombre_producto'] }}</h5>
-                <p>{{ producto['descripcion'] }}</p>
+                <p class="card-text">{{ producto['descripcion'] }}</p>
                 <p><strong>Precio:</strong> ${{ producto['precio'] }}</p>
-                <a href="/agregar/{{ producto['id'] }}" class="btn btn-primary w-100">Agregar al carrito</a>
+                <p><strong>Existencias:</strong> {{ producto['existencias'] }}</p>
+                <a href="/agregar/{{ producto['id'] }}" class="btn-custom mt-2 w-100">Agregar al carrito</a>
             </div>
         </div>
     </div>

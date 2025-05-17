@@ -1,16 +1,38 @@
 {% extends 'base.html' %}
+
 {% block title %}Resumen de Compra{% endblock %}
+
 {% block content %}
-<h2>Resumen de Compra</h2>
-<ul class="list-group mb-4">
+<div class="bg-light p-5 rounded mb-4 text-center shadow-sm">
+    <h1 class="mb-3">Resumen de tu Compra</h1>
+    <p>Verifica los productos y el total antes de confirmar el pago.</p>
+</div>
+
+{% if carrito %}
+<div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
     {% for producto in carrito %}
-    <li class="list-group-item">
-        {{ producto['nombre_producto'] }} - ${{ producto['precio'] }}
-    </li>
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0 rounded-4">
+            <div class="card-body">
+                <h5 class="card-title">{{ producto['nombre_producto'] }}</h5>
+                <p class="card-text">{{ producto['descripcion'] }}</p>
+                <p><strong>Precio:</strong> ${{ producto['precio'] }}</p>
+            </div>
+        </div>
+    </div>
     {% endfor %}
-</ul>
-<p><strong>Total:</strong> ${{ total }}</p>
-<form action="/confirmar_compra" method="post">
-    <button class="btn btn-success">Confirmar Compra</button>
-</form>
+</div>
+
+<div class="text-center mt-4">
+    <h3>Total a Pagar: <strong>${{ total }}</strong></h3>
+    <form action="/confirmar_compra" method="post" class="mt-3">
+        <button class="btn-custom btn-lg">Confirmar Compra</button>
+    </form>
+</div>
+{% else %}
+<div class="alert alert-info text-center">
+    <h4>Tu carrito está vacío.</h4>
+    <p>Regresa a los <a href="/productos">productos</a> para agregar artículos.</p>
+</div>
+{% endif %}
 {% endblock %}

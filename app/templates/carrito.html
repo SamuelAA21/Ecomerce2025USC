@@ -1,18 +1,38 @@
 {% extends 'base.html' %}
-{% block title %}Carrito{% endblock %}
+
+{% block title %}Tu Carrito{% endblock %}
+
 {% block content %}
-<h2>Carrito</h2>
+<div class="bg-light p-5 rounded mb-4 text-center shadow-sm">
+    <h1 class="mb-3">Tu Carrito de Compras</h1>
+    <p>Revisa tus productos antes de proceder al pago.</p>
+</div>
+
 {% if carrito %}
-<ul class="list-group mb-4">
+<div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
     {% for producto in carrito %}
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-        {{ producto['nombre_producto'] }} - ${{ producto['precio'] }}
-        <a href="/quitar/{{ producto['id'] }}" class="btn btn-danger btn-sm">Quitar</a>
-    </li>
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0 rounded-4">
+            <div class="card-body">
+                <h5 class="card-title">{{ producto['nombre_producto'] }}</h5>
+                <p class="card-text">{{ producto['descripcion'] }}</p>
+                <p><strong>Precio:</strong> ${{ producto['precio'] }}</p>
+                <div class="d-flex justify-content-between">
+                    <a href="/quitar/{{ producto['id'] }}" class="btn-danger-custom">Quitar</a>
+                </div>
+            </div>
+        </div>
+    </div>
     {% endfor %}
-</ul>
-<a href="/comprar" class="btn btn-success">Proceder a Comprar</a>
+</div>
+
+<div class="text-center">
+    <a href="/comprar" class="btn-custom btn-lg">Proceder a Comprar</a>
+</div>
 {% else %}
-<p>Tu carrito está vacío.</p>
+<div class="alert alert-info text-center">
+    <h4>Tu carrito está vacío.</h4>
+    <p>Regresa a los <a href="/productos">productos</a> y sigue comprando.</p>
+</div>
 {% endif %}
 {% endblock %}
